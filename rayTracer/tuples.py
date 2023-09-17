@@ -1,10 +1,10 @@
 class Tuples:
-	def __init__(self):
-		self.x = 0
-		self.y = 0
-		self.z = 0
-		self.w = 1
-	
+	def __init__(self, x=None, y=None, z=None, w=None):
+		self.x = x
+		self.y = y
+		self.z = z
+		self.w = w
+		
 	def Point(self,x,y,z):
 		self.x = x
 		self.y = y
@@ -45,9 +45,16 @@ class Tuples:
 		tuple.w = self.w - Tuples.w 
 		return tuple
 	
+	def __neg__(self):
+		self.x = self.x * -1
+		self.y = self.y * -1
+		self.z = self.z * -1
+		self.w = self.w * -1
+		return self
+	
 	def __eq__(self, Tuples):
 		if self.x == Tuples.x and \
-		    self.y == Tuples.y and \
+			self.y == Tuples.y and \
 			  self.z == Tuples.z and \
 				self.w == Tuples.w:
 			return True
