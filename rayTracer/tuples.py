@@ -1,3 +1,5 @@
+from math import sqrt 
+
 class Tuples:
 	def __init__(self, x=None, y=None, z=None, w=None):
 		self.x = x
@@ -76,3 +78,15 @@ class Tuples:
 		self.z = self.z / num
 		self.w = self.w / num
 		return self
+	
+	def magnitude(self, Tuple):
+		return sqrt(Tuple.x**2+Tuple.y**2+Tuple.z**2+Tuple.w**2) 
+
+	def equal(self, result, expected):
+		if result == expected:
+			return True
+		else:
+			return False
+	
+	
+		
