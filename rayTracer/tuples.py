@@ -40,11 +40,11 @@ class Tuples:
 	def __neg__(self):
 		return Tuples(-self.x, -self.y, -self.z, -self.w)
 	
-	def __eq__(self, Tuples):
-		return self.x == Tuples.x and \
-			self.y == Tuples.y and \
-			  self.z == Tuples.z and \
-				self.w == Tuples.w 
+	def __eq__(self, other):
+		return self.x == other.x and \
+			self.y == other.y and \
+			self.z == other.z and \
+			self.w == other.w
 		
 	def __mul__(self, num):
 		return Tuples(self.x * num, self.y * num, self.z * num, self.w * num)
@@ -66,4 +66,18 @@ class Tuples:
 			return Tuples(0, 0, 0, 0)
 		else:
 			return Tuple / mag
+	
+	def dot(self, Tuple, other):
+		return Tuple.x * other.x +\
+			Tuple.y * other.y +\
+			Tuple.z * other.z +\
+			Tuple.w * other.w
+	
+	def cross(self, Tuple, other):
+		x =  Tuple.y * other.z - Tuple.z * other.y
+		y = Tuple.z * other.x - Tuple.x * other.z
+		z = Tuple.x * other.y - Tuple.y * other.x
+		return Tuples(x,y,z,0)	
 		
+	def reflect(self):
+		pass
