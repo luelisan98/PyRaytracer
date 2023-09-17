@@ -60,3 +60,19 @@ class Tuples:
 			return True
 		else:
 			return False 
+		
+	def __mul__(self, num):
+		self.x = self.x * num
+		self.y = self.y * num
+		self.z = self.z * num
+		self.w = self.w * num
+		return self
+
+	def __truediv__(self, num):
+		if num == 0:
+			num = 1 
+		self.x = self.x / num
+		self.y = self.y / num
+		self.z = self.z / num
+		self.w = self.w / num
+		return self
