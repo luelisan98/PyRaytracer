@@ -77,7 +77,4 @@ class Tuples:
 		x =  Tuple.y * other.z - Tuple.z * other.y
 		y = Tuple.z * other.x - Tuple.x * other.z
 		z = Tuple.x * other.y - Tuple.y * other.x
-		return Tuples(x,y,z,0)	
-		
-	def reflect(self):
-		pass
+		return Tuples(x,y,z,0)
