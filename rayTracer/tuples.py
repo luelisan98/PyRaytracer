@@ -1,5 +1,7 @@
 from math import sqrt 
 
+EPSILON = 0.00001
+
 class Tuples:
 	def __init__(self, x=None, y=None, z=None, w=None):
 		self.x = x
@@ -12,12 +14,14 @@ class Tuples:
 		self.y = y
 		self.z = z
 		self.w = 1
+		return self
 
 	def Vector(self,x,y,z):
 		self.x = x
 		self.y = y
 		self.z = z
 		self.w = 0
+		return self
 	
 	def isPoint(self):
 		if self.w == 1:
@@ -54,27 +58,30 @@ class Tuples:
 			num = 1 
 		return Tuples(self.x / num, self.y / num, self.z / num, self.w / num)
 	
-	def magnitude(self, Tuple):
-		return sqrt(Tuple.x**2+Tuple.y**2+Tuple.z**2+Tuple.w**2) 
-
-	def equal(self, result, expected):
-		return result == expected
+	def magnitude(self):
+		return sqrt(self.x**2+self.y**2+self.z**2+self.w**2) 
 	
-	def normalize(self, Tuple):
-		mag = self.magnitude(Tuple)
+	def equal(self, a, b):
+		return abs(a - b) < EPSILON
+
+	def normalize(self):
+		mag = self.magnitude()
 		if mag == 0:
 			return Tuples(0, 0, 0, 0)
 		else:
-			return Tuple / mag
+			return self / mag
 	
-	def dot(self, Tuple, other):
-		return Tuple.x * other.x +\
-			Tuple.y * other.y +\
-			Tuple.z * other.z +\
-			Tuple.w * other.w
+	def dot(self, Tuple):
+		return self.x * Tuple.x +\
+			self.y * Tuple.y +\
+			self.z * Tuple.z +\
+			self.w * Tuple.w
 	
-	def cross(self, Tuple, other):
-		x =  Tuple.y * other.z - Tuple.z * other.y
-		y = Tuple.z * other.x - Tuple.x * other.z
-		z = Tuple.x * other.y - Tuple.y * other.x
+	def cross(self, Tuple):
+		x =  self.y * Tuple.z - self.z * Tuple.y
+		y = self.z * Tuple.x - self.x * Tuple.z
+		z = self.x * Tuple.y - self.y * Tuple.x
 		return Tuples(x,y,z,0)
+
+	def reflect(self, Tuple):
+		pass
