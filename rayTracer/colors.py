@@ -1,17 +1,27 @@
-from rayTracer.tuples import Tuples
+EPSILON = 0.00001
 
-class Colors(Tuples):
-	def __init__(self, red, green, blue, w=None):
-		super().__init__(red, green, blue, w)
+class Colors():
+	def __init__(self, red, green, blue):
 		self.r = red
 		self.g = green
 		self.b = blue
 
+	def equal(self, a, b):
+		return abs(a - b) < EPSILON
+
 	def __add__(self, other):
-		return super().__add__(other)
+		return Colors(self.r + other.r, self.g + other.g, self.b + other.b)
+	
+	def __eq__(self, other):
+		return self.equal(self.r, other.r) and \
+			self.equal(self.g, other.g) and \
+			self.equal(self.b, other.b) 
 	
 	def __sub__(self,other):
-		return super().__sub__(other)
-	
-	def __mul__(self, num):
-		return super().__mul__(num)
+		return Colors(self.r - other.r, self.g - other.g, self.b - other.b)
+
+	def __mul__(self,other):
+		if isinstance(other, Colors):
+			return Colors(self.r * other.r, self.g * other.g, self.b * other.b)
+		elif isinstance(other, int):
+			return Colors(self.r * other, self.g * other, self.b * other)
