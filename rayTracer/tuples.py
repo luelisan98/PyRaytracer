@@ -45,10 +45,10 @@ class Tuples:
 		return Tuples(-self.x, -self.y, -self.z, -self.w)
 	
 	def __eq__(self, other):
-		return self.x == other.x and \
-			self.y == other.y and \
-			self.z == other.z and \
-			self.w == other.w
+		return self.equal(self.x, other.x) and \
+			self.equal(self.y, other.y) and \
+			self.equal(self.z, other.z) and \
+			self.equal(self.w, other.w)
 		
 	def __mul__(self, num):
 		return Tuples(self.x * num, self.y * num, self.z * num, self.w * num)
