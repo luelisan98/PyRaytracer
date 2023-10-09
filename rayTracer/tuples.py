@@ -71,17 +71,17 @@ class Tuples:
 		else:
 			return self / mag
 	
-	def dot(self, Tuple, other):
+	def dot(Tuple, other):
 		return Tuple.x * other.x +\
 			Tuple.y * other.y +\
 			Tuple.z * other.z +\
 			Tuple.w * other.w
 	
-	def cross(self, Tuple, other):
+	def cross(Tuple, other):
 		x =  Tuple.y * other.z - Tuple.z * other.y
 		y = Tuple.z * other.x - Tuple.x * other.z
 		z = Tuple.x * other.y - Tuple.y * other.x
 		return Tuples(x,y,z,0)
 
-	def reflect(self, Tuple,other):
+	def reflect(Tuple,other):
 		pass
