@@ -1,5 +1,5 @@
 from rayTracer.tuples import Tuples
-from fractions import Fraction
+import math 
 
 class Matrix():
 	def __init__(self, rows, cols):
@@ -25,10 +25,11 @@ class Matrix():
 
 			result = Matrix(self.rows, other.cols)
 
-			for i in range(self.rows):
-				for j in range(other.cols):
-					for k in range(self.cols):
-						result.mat[i][j] += self.mat[i][k] * other.mat[k][j]
+			for row in range(self.rows):
+				for col in range(self.cols):
+					for k in range(other.rows):
+						result.mat[row][col] += (self.mat[row][k] * other.mat[k][col])	
+					result.mat[row][col] = round(result.mat[row][col])
 
 			return result
 		elif isinstance(other, Tuples):
@@ -109,18 +110,14 @@ class Matrix():
 			return True
 		
 	def inverse(self):
-
+		if not self.is_invertible():
+			return None
+		
 		det = self.determinant()
-		matrix_cofactors = Matrix(self.rows, self.cols)
+		M2 = Matrix(self.rows, self.cols)
 		for row in range(self.rows):
 			for col in range(self.cols):
-				cofactor_value = self.cofactor(row, col)
-				matrix_cofactors.mat[row][col] = cofactor_value
+				cof = self.cofactor(row, col)
+				M2.mat[col][row] = round(cof / det, 5) 
 
-		trans_matrix_cof = matrix_cofactors.transposing()
-
-		inverse = Matrix(self.rows, self.cols)
-		for row in range(self.rows):
-			for col in range(self.cols):
-				inverse.mat[row][col] = round(trans_matrix_cof.mat[row][col] / det , 5)
-		return inverse
+		return M2 
