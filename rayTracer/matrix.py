@@ -118,6 +118,7 @@ class Matrix():
 		for row in range(self.rows):
 			for col in range(self.cols):
 				cof = self.cofactor(row, col)
-				M2.mat[col][row] = round(cof / det, 5) 
-
+				#M2.mat[col][row] = round(cof / det, 5) 
+				M2.mat[col][row] = cof / det 
+			
 		return M2 
