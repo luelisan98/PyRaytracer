@@ -83,5 +83,7 @@ class Tuples:
 		z = Tuple.x * other.y - Tuple.y * other.x
 		return Tuples(x,y,z,0)
 
-	def reflect(Tuple,other):
-		pass
+	def reflect(self, normal):
+		dot_product = 2 * self.dot(normal)
+		reflection = self - normal * dot_product
+		return reflection
