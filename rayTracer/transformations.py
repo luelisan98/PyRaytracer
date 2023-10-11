@@ -50,3 +50,12 @@ class Transformations:
 		self.transformation.mat[1][0] = sin_r
 		self.transformation.mat[1][1] = cos_r
 		return self.transformation
+	
+	def shearing(self, xy,xz,yx,yz,zx,zy):
+		self.transformation.mat[0][1] = xy
+		self.transformation.mat[0][2] = xz
+		self.transformation.mat[1][0] = yx
+		self.transformation.mat[1][2] = yz
+		self.transformation.mat[2][0] = zx
+		self.transformation.mat[2][1] = zy
+		return self.transformation
