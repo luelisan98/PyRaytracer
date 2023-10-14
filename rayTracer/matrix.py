@@ -1,11 +1,16 @@
 from rayTracer.tuples import Tuples
 import math 
 
+EPSILON = 0.00001
+
 class Matrix():
 	def __init__(self, rows, cols):
 		self.rows = rows
 		self.cols = cols
 		self.mat = [[0 for _ in range(cols)] for _ in range(rows)]
+
+	def equal(self, a, b):
+		return abs(a - b) < EPSILON
 
 	def __eq__(self, other):
 		if self.rows != other.rows or self.cols != other.cols:
@@ -13,7 +18,7 @@ class Matrix():
 
 		for row in range(self.rows):
 			for col in range(self.cols):
-				if self.mat[row][col] != other.mat[row][col]:
+				if not self.equal(self.mat[row][col], other.mat[row][col]):
 					return False
 
 		return True
