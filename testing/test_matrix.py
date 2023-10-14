@@ -499,9 +499,9 @@ def test_invert_matrix1():
     b = a.inverse()
     assert(a.determinant() == 532)
     assert(a.cofactor(2,3) == -160)
-    assert(b.mat[3][2] == round(-160/532,5))
+    assert(b.mat[3][2] == -160/532)
     assert(a.cofactor(3,2) == 105)
-    assert(b.mat[2][3] == round(105/532,5))
+    assert(b.mat[2][3] == 105/532)
     assert(b == expected)	
 
 def test_invert_matrix2():
