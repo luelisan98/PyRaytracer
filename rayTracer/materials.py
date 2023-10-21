@@ -1,4 +1,5 @@
 from rayTracer.colors import Colors
+from rayTracer.tuples import Tuples
 
 class Materials():
 	def __init__(self):
@@ -14,3 +15,4 @@ class Materials():
 				(self.diffuse == other.diffuse) and \
 				(self.specular == other.specular) and \
 				(self.shininess == other.shininess)
+	

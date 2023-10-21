@@ -23,5 +23,10 @@ class Colors():
 	def __mul__(self,other):
 		if isinstance(other, Colors):
 			return Colors(self.r * other.r, self.g * other.g, self.b * other.b)
+		elif isinstance(other, float):
+			return Colors(self.r * other, self.g * other, self.b * other)
 		elif isinstance(other, int):
 			return Colors(self.r * other, self.g * other, self.b * other)
+		
+	def to_str(self):
+		return f"Color({self.r}, {self.g}, {self.b})"

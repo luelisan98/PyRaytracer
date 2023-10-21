@@ -90,3 +90,6 @@ class Tuples:
 		dot_product = 2 * self.dot(normal)
 		reflection = self - normal * dot_product
 		return reflection
+
+	def to_str(self):
+		return f"Tuples({self.x}, {self.y}, {self.z}, {self.w})"
