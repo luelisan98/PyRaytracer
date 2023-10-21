@@ -9,6 +9,7 @@ class Lights():
 	def point_light(self, position, intensity):
 		self.position = position
 		self.intensity = intensity
+		return self
 
 	def lighting(self, material, light, point, eyev, normalv, in_shadow=None):
 		effective_color = material.color * light.intensity
