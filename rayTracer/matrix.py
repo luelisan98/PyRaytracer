@@ -33,8 +33,7 @@ class Matrix():
 			for row in range(self.rows):
 				for col in range(self.cols):
 					for k in range(other.rows):
-						result.mat[row][col] += (self.mat[row][k] * other.mat[k][col])	
-					result.mat[row][col] = round(result.mat[row][col])
+						result.mat[row][col] += (self.mat[row][k] * other.mat[k][col])
 
 			return result
 		elif isinstance(other, Tuples):

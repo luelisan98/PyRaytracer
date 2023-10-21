@@ -152,16 +152,10 @@ def test_normal_transformed_sphere():
     trans = Transformations()
     sphere = Sphere()
     m = trans.scaling(1, 0.5, 1) * trans.rotation_z(3.14159/5)
-    print("scaling:")
-    print(trans.scaling(1, 0.5, 1).mat)
-    print("rotation:")
-    print(trans.rotation_z(3.14159/5).mat)
-    print(m.mat)
     sphere.set_transform(m)
     Point = Tuples().Point(0, (2 ** 0.5) / 2, -(2 ** 0.5) / 2)
     expected = Tuples().Vector(0, 0.97014, -0.24254)
     normal = sphere.normal_at(Point)
-    print(normal.x, normal.y, normal.z)
     assert normal == expected
 
 # def test_sphere_default_material():

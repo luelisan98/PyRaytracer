@@ -16,7 +16,7 @@ class Sphere():
 		return self
 		
 	def normal_at(self, world_point):
-		print(self.transform.mat)
+		# print(self.transform.mat)
 		# print(self.transform.inverse().mat)
 		object_point = self.transform.inverse() * world_point
 		# print(object_point.x, object_point.y, object_point.z)

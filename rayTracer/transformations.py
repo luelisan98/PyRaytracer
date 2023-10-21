@@ -1,66 +1,69 @@
 from rayTracer.matrix import Matrix
 import math 
 class Transformations: 
-	def __init__(self):
-		self.transformation = Matrix(4,4)
-		self.transformation = self.transformation.identity()
-
 	@staticmethod
-	def translation(self, x,y,z):
-		self.transformation.mat[0][3] = x
-		self.transformation.mat[1][3] = y
-		self.transformation.mat[2][3] = z
-		return self.transformation
+	def translation(x,y,z):
+		m = Matrix(4,4).identity()
+		m.mat[0][3] = x
+		m.mat[1][3] = y
+		m.mat[2][3] = z
+		return m
 	
 	@staticmethod
-	def scaling(self,x,y,z):
-		self.transformation.mat[0][0] = x
-		self.transformation.mat[1][1] = y
-		self.transformation.mat[2][2] = z
-		return self.transformation
+	def scaling(x,y,z):
+		m = Matrix(4,4).identity()
+		m.mat[0][0] = x
+		m.mat[1][1] = y
+		m.mat[2][2] = z
+		return m
 	
 	@staticmethod
-	def rotation_x(self, angle):
-		
+	def rotation_x(angle):
 		#angle_radians = math.radians(angle_degrees)
 		cos_r = math.cos(angle)
 		sin_r = math.sin(angle)
-		self.transformation.mat[1][1] = cos_r
-		self.transformation.mat[1][2] = -sin_r
-		self.transformation.mat[2][1] = sin_r
-		self.transformation.mat[2][2] = cos_r
-		return self.transformation
+		m = Matrix(4,4).identity()
+		m.mat[1][1] = cos_r
+		m.mat[1][2] = -sin_r
+		m.mat[2][1] = sin_r
+		m.mat[2][2] = cos_r
+		return m
 	
 	@staticmethod
-	def rotation_y(self, angle):
-		
+	def rotation_y( angle):
+		#angle_radians = math.radians(angle_degrees)
+		m = Matrix(4,4).identity()
+		cos_r = math.cos(angle)
+		sin_r = math.sin(angle)
+		m.mat[0][0] = cos_r
+		m.mat[0][2] = sin_r
+		m.mat[2][0] = -sin_r
+		m.mat[2][2] = cos_r
+		return m
+	
+	@staticmethod
+	def rotation_z( angle):
+		m = Matrix(4,4).identity()
 		#angle_radians = math.radians(angle_degrees)
 		cos_r = math.cos(angle)
 		sin_r = math.sin(angle)
-		self.transformation.mat[0][0] = cos_r
-		self.transformation.mat[0][2] = sin_r
-		self.transformation.mat[2][0] = -sin_r
-		self.transformation.mat[2][2] = cos_r
-		return self.transformation
+		m.mat[0][0] = cos_r
+		m.mat[0][1] = -sin_r
+		m.mat[1][0] = sin_r
+		m.mat[1][1] = cos_r
+		return m
 	
 	@staticmethod
-	def rotation_z(self, angle):
-		
-		#angle_radians = math.radians(angle_degrees)
-		cos_r = math.cos(angle)
-		sin_r = math.sin(angle)
-		self.transformation.mat[0][0] = cos_r
-		self.transformation.mat[0][1] = -sin_r
-		self.transformation.mat[1][0] = sin_r
-		self.transformation.mat[1][1] = cos_r
-		return self.transformation
+	def shearing( xy,xz,yx,yz,zx,zy):
+		m = Matrix(4,4).identity()
+		m.mat[0][1] = xy
+		m.mat[0][2] = xz
+		m.mat[1][0] = yx
+		m.mat[1][2] = yz
+		m.mat[2][0] = zx
+		m.mat[2][1] = zy
+		return m
 	
 	@staticmethod
-	def shearing(self, xy,xz,yx,yz,zx,zy):
-		self.transformation.mat[0][1] = xy
-		self.transformation.mat[0][2] = xz
-		self.transformation.mat[1][0] = yx
-		self.transformation.mat[1][2] = yz
-		self.transformation.mat[2][0] = zx
-		self.transformation.mat[2][1] = zy
-		return self.transformation
+	def view_transform(p_from, p_to, p_up):
+		pass
