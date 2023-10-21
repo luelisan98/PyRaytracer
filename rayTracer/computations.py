@@ -16,7 +16,7 @@ class Computations():
 		self.point = r.position(self.t)
 		self.eyev = -r.direction  
 		self.normalv = self.object.normal_at(self.point)
-		if self.normalv.dot(self.eyev):
+		if self.normalv.dot(self.eyev) < 0:
 			self.inside = True
 			self.normalv = -self.normalv
 		else:

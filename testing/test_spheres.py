@@ -158,15 +158,15 @@ def test_normal_transformed_sphere():
     normal = sphere.normal_at(Point)
     assert normal == expected
 
-# def test_sphere_default_material():
-#     sphere = Sphere()
-#     m = sphere.material
-#     expected = Materials()
-#     assert m == expected
+def test_sphere_default_material():
+    sphere = Sphere()
+    m = sphere.material
+    expected = Materials()
+    assert m == expected
 
-# def test_sphere_assigned_material():
-#     sphere = Sphere()
-#     m = Materials()
-#     m.ambient = 1
-#     sphere.material = m
-#     assert m == sphere.material
+def test_sphere_assigned_material():
+    sphere = Sphere()
+    m = Materials()
+    m.ambient = 1
+    sphere.material = m
+    assert m == sphere.material
