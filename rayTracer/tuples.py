@@ -45,7 +45,10 @@ class Tuples:
 		return Tuples(-self.x, -self.y, -self.z, -self.w)
 	
 	def __eq__(self, other):
-		return self.equal(self.x, other.x) and \
+		if other == None:
+			return False
+		else:
+			return self.equal(self.x, other.x) and \
 			self.equal(self.y, other.y) and \
 			self.equal(self.z, other.z) and \
 			self.equal(self.w, other.w)
@@ -71,16 +74,16 @@ class Tuples:
 		else:
 			return self / mag
 	
-	def dot(Tuple, other):
-		return Tuple.x * other.x +\
-			Tuple.y * other.y +\
-			Tuple.z * other.z +\
-			Tuple.w * other.w
+	def dot(self, other, other1=None):
+		if other1 != None:
+			return ( other.x*other1.x ) + ( other.y*other1.y ) + ( other.z*other1.z )+ ( other.w*other1.w ) 
+		else:
+			return ( other.x*self.x ) + ( other.y*self.y ) + ( other.z*self.z )+ ( other.w*self.w ) 
 	
-	def cross(Tuple, other):
-		x =  Tuple.y * other.z - Tuple.z * other.y
-		y = Tuple.z * other.x - Tuple.x * other.z
-		z = Tuple.x * other.y - Tuple.y * other.x
+	def cross(self, other):
+		x =  self.y * other.z - self.z * other.y
+		y = self.z * other.x - self.x * other.z
+		z = self.x * other.y - self.y * other.x
 		return Tuples(x,y,z,0)
 
 	def reflect(self, normal):

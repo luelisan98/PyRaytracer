@@ -10,23 +10,21 @@ class Sphere():
 		self.center = center
 		self.radius = radius
 		self.transform = Matrix(4,4).identity()
-		self.intresections = []
-
-	def intersection(self, ray):
-		ray2 = Intersection().transform(ray, self.transform.inverse())
-		sphere_to_ray = ray2.origin - self.center
-		a = Tuples.dot(ray2.direction, ray2.direction)
-		b = 2 * Tuples.dot(ray2.direction, sphere_to_ray)
-		c = Tuples.dot(sphere_to_ray, sphere_to_ray) - self.radius
-		discriminant = b**2 - 4 * a * c
-
-		if discriminant < 0:
-			return None,None
-		else:
-			t1 = (-b - math.sqrt(discriminant)) / (2 * a)
-			t2 = (-b + math.sqrt(discriminant)) / (2 * a)
-			return t1,t2
 		
 	def set_transform(self, mat_transform):
 		self.transform = mat_transform
 		return self
+		
+	def normal_at(self, world_point):
+		print(self.transform.mat)
+		# print(self.transform.inverse().mat)
+		object_point = self.transform.inverse() * world_point
+		# print(object_point.x, object_point.y, object_point.z)
+		object_normal = object_point - Tuples().Point(0,0,0)
+		# print(object_normal.x, object_normal.y, object_normal.z)
+		world_normal = self.transform.inverse().transposing() * object_normal
+		# print(world_normal.x, world_normal.y, world_normal.z)
+		world_normal.w = 0
+
+
+		return world_normal.normalize()

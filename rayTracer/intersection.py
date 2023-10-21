@@ -1,4 +1,6 @@
 from rayTracer.rays import Rays
+from rayTracer.tuples import Tuples
+import math
 
 class Intersection():
 	def __init__(self,t=None,obj=None):
@@ -6,9 +8,10 @@ class Intersection():
 		self.obj = obj
 
 	def intersections(*intersections):
-		intersections = [Intersection(intersection.t, intersection.obj) for intersection in intersections]
-		intersections.sort()
-		return intersections
+		v = []
+		for i in intersections:
+			v.append(i)
+		return v
 
 	def __eq__(self, other):
 		return self.t == other.t and self.obj.id == other.obj.id
@@ -19,10 +22,19 @@ class Intersection():
 		return Rays(new_origin, new_direction)
 	
 	def intersect(self, obj, ray):
-		t1,t2 = obj.intersection(ray)
-		if t1 is None and t2 is None:
-			return []
-		return [Intersection(t1,obj), Intersection(t2,obj)]
+		ray2 = self.transform(ray, obj.transform.inverse())
+		sphere_to_ray = ray2.origin - obj.center
+		a = Tuples().dot(ray2.direction, ray2.direction)
+		b = 2 * Tuples().dot(ray2.direction, sphere_to_ray)
+		c = Tuples().dot(sphere_to_ray, sphere_to_ray) - obj.radius
+		discriminant = b**2 - 4 * a * c
+		z = []
+		if discriminant >= 0:
+			t1 = (-b - math.sqrt(discriminant)) / (2 * a)
+			t2 = (-b + math.sqrt(discriminant)) / (2 * a)
+			z.append(Intersection(t1,obj))
+			z.append(Intersection(t2,obj))
+		return z
 	
 	def hit(self,intersections):
 		hit_list = [intersection for intersection in intersections if intersection.t >= 0]

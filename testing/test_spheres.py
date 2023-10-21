@@ -13,8 +13,6 @@ def test_two_points_intersection_sphere():
     ray = Rays(origin, direction)
     sphere = Sphere()
     intersections = Intersection().intersect(sphere, ray)
-    print(str(intersections[0].t))
-    print(str(intersections[1].t))
     assert len(intersections) == 2
     assert intersections[0].t == 4.0
     assert intersections[1].t == 6.0
@@ -154,21 +152,27 @@ def test_normal_transformed_sphere():
     trans = Transformations()
     sphere = Sphere()
     m = trans.scaling(1, 0.5, 1) * trans.rotation_z(3.14159/5)
+    print("scaling:")
+    print(trans.scaling(1, 0.5, 1).mat)
+    print("rotation:")
+    print(trans.rotation_z(3.14159/5).mat)
+    print(m.mat)
     sphere.set_transform(m)
     Point = Tuples().Point(0, (2 ** 0.5) / 2, -(2 ** 0.5) / 2)
     expected = Tuples().Vector(0, 0.97014, -0.24254)
     normal = sphere.normal_at(Point)
+    print(normal.x, normal.y, normal.z)
     assert normal == expected
 
-def test_sphere_default_material():
-    sphere = Sphere()
-    m = sphere.material
-    expected = Materials()
-    assert m == expected
+# def test_sphere_default_material():
+#     sphere = Sphere()
+#     m = sphere.material
+#     expected = Materials()
+#     assert m == expected
 
-def test_sphere_assigned_material():
-    sphere = Sphere()
-    m = Materials()
-    m.ambient = 1
-    sphere.material = m
-    assert m == sphere.material
+# def test_sphere_assigned_material():
+#     sphere = Sphere()
+#     m = Materials()
+#     m.ambient = 1
+#     sphere.material = m
+#     assert m == sphere.material

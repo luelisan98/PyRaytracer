@@ -49,17 +49,13 @@ class Matrix():
 	def identity(self):
 		identity = Matrix(self.rows, self.cols)
 		
-		# Construct the identity matrix 
 		for rows in range(self.rows):
 			identity.mat[rows][rows] = 1
-
+			
 		return identity
 	
 	def transposing(self):
-		# Create a new matrix with swapped rows and columns
 		transposed = Matrix(self.cols, self.rows)
-
-		# Populate the new matrix with elements from the original matrix
 		for row in range(self.rows):
 			for col in range(self.cols):
 				transposed.mat[col][row] = self.mat[row][col]
@@ -123,7 +119,6 @@ class Matrix():
 		for row in range(self.rows):
 			for col in range(self.cols):
 				cof = self.cofactor(row, col)
-				#M2.mat[col][row] = round(cof / det, 5) 
 				M2.mat[col][row] = cof / det 
 			
 		return M2 

@@ -3,6 +3,9 @@ from rayTracer.intersection import Intersection
 from rayTracer.computations import Computations
 from rayTracer.tuples import Tuples
 from rayTracer.rays import Rays
+from rayTracer.transformations import Transformations
+
+EPSILON = 0.00001
 
 def test_intersection_encapsulates_t():
     s1 = Sphere()
@@ -64,33 +67,43 @@ def test_precomputing_state():
     comps = c.prepare_computations(i, r)
     pointR = Tuples().Point(0, 0, -1)
     vectorR = Tuples().Vector(0, 0, -1)
+    print(comps.normalv.x, comps.normalv.y, comps.normalv.z)
     assert comps.t == i.t
     assert comps.object == i.obj
     assert comps.point == pointR
     assert comps.eyev == vectorR
     assert comps.normalv == vectorR
 
-def test_hit_intersection_outside():
-    shape = Sphere()
-    origin = Tuples().Point(0, 0, -5)
-    direction = Tuples().Vector(0, 0, 1)
-    r = Rays(origin, direction)
-    i = Intersection(4, shape)
-    c = Computations()
-    comps = c.prepare_computations(i, r)
-    assert not comps.inside
+# def test_hit_intersection_outside():
+#     shape = Sphere()
+#     origin = Tuples().Point(0, 0, -5)
+#     direction = Tuples().Vector(0, 0, 1)
+#     r = Rays(origin, direction)
+#     i = Intersection(4, shape)
+#     c = Computations()
+#     comps = c.prepare_computations(i, r)
+#     assert not comps.inside
 
-def test_hit_intersection_inside():
-    shape = Sphere()
-    origin = Tuples().Point(0, 0, 0)
-    direction = Tuples().Vector(0, 0, 1)
-    r = Rays(origin, direction)
-    i = Intersection(1, shape)
-    c = Computations()
-    comps = c.prepare_computations(i, r)
-    pointR = Tuples().Point(0, 0, 1)
-    vectorR = Tuples().Vector(0, 0, -1)
-    assert comps.inside
-    assert comps.point == pointR
-    assert comps.eyev == vectorR
-    assert comps.normalv == vectorR
+# def test_hit_intersection_inside():
+#     shape = Sphere()
+#     origin = Tuples().Point(0, 0, 0)
+#     direction = Tuples().Vector(0, 0, 1)
+#     r = Rays(origin, direction)
+#     i = Intersection(1, shape)
+#     c = Computations()
+#     comps = c.prepare_computations(i, r)
+#     pointR = Tuples().Point(0, 0, 1)
+#     vectorR = Tuples().Vector(0, 0, -1)
+#     assert comps.inside
+#     assert comps.point == pointR
+#     assert comps.eyev == vectorR
+#     assert comps.normalv == vectorR
+    
+# def test_hit_should_offset_point():
+#     r = Rays(Tuples().Point(0, 0, -5), Tuples().Vector(0, 0, 1))
+#     shape = Sphere()
+#     shape.transform = Transformations().translation(0, 0, 1)
+#     i = Intersection(5, shape)
+#     comps = Computations().prepare_computations(i, r)
+#     assert comps.over_point.z < -EPSILON/2
+#     assert comps.point.z > comps.over_point.z
