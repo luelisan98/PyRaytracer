@@ -32,3 +32,6 @@ class Lights():
 				specular = light.intensity * material.specular * factor
 
 		return ambient + diffuse + specular
+
+	def __eq__(self, other):
+		return self.position == other.position and self.intensity == other.intensity

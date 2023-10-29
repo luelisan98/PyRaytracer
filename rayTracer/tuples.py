@@ -45,10 +45,7 @@ class Tuples:
 		return Tuples(-self.x, -self.y, -self.z, -self.w)
 	
 	def __eq__(self, other):
-		if other == None:
-			return False
-		else:
-			return self.equal(self.x, other.x) and \
+		return self.equal(self.x, other.x) and \
 			self.equal(self.y, other.y) and \
 			self.equal(self.z, other.z) and \
 			self.equal(self.w, other.w)

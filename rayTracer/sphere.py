@@ -5,6 +5,8 @@ from rayTracer.materials import Materials
 import math
 import uuid
 
+EPSILON = 0.00001
+
 class Sphere():	
 	def __init__(self, center=Tuples().Point(0, 0, 0), radius=1):
 		self.id = uuid.uuid4()
@@ -23,3 +25,15 @@ class Sphere():
 		world_normal = self.transform.inverse().transposing() * object_normal
 		world_normal.w = 0
 		return world_normal.normalize()
+	
+	def to_str(self):
+		return f"Sphere ID: {self.id}, Center: {self.center.to_str()}, Radius: {self.radius}, Transform: {self.transform.mat}, Material: {self.material.to_str()}"
+
+	def equal(self, a, b):
+		return abs(a - b) < EPSILON
+
+	def __eq__(self, other):
+		return self.center == other.center \
+			and self.equal(self.radius, other.radius) \
+			and self.transform == other.transform \
+			and self.material == other.material
