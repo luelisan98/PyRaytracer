@@ -33,6 +33,7 @@ class World():
 
 		self.objects.append(s1)
 		self.objects.append(s2)
+		return self
 	
 	def __eq__(self, other):
 		return self.light == other.light and self.objects == other.objects

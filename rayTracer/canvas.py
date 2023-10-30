@@ -12,7 +12,7 @@ class Canvas():
 		self.grid[x][y] = Color
 
 	def pixel_at(self, x, y):
-		return self.grid[x][y] * 255
+		return round(self.grid[x][y] * 255)
 
 	def canvas_to_ppm(self, file_path):
 		with open(file_path, 'w') as file:
@@ -38,3 +38,25 @@ class Canvas():
 				for line in [ppm_row[i: i + 17] for i in range(0, len(ppm_row), 17)]:
 					file.write(" ".join(str(c) for c in line) + " ")
 				file.write("\n")
+
+	def __str__(self):
+		lines = []
+		for row in range(self.height):
+			ppm_row = []
+			for col in range(self.width):
+				element = self.pixel_at(col, row)
+				red = ceil(element.r)
+				green = ceil(element.g)
+				blue = ceil(element.b)
+
+				red = max(0, min(255, red))
+				green = max(0, min(255, green))
+				blue = max(0, min(255, blue))
+
+				ppm_row.extend([red, green, blue])
+
+			for line in [ppm_row[i: i + 17] for i in range(0, len(ppm_row), 17)]:
+				lines.append(" ".join(str(c) for c in line) + " ")
+			lines.append("\n")
+
+		return "".join(lines)

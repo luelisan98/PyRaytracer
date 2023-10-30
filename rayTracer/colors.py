@@ -30,3 +30,9 @@ class Colors():
 		
 	def to_str(self):
 		return f"Color({self.r}, {self.g}, {self.b})"
+	
+	def __round__(self):
+		r = round(self.r)
+		g = round(self.g)
+		b = round(self.b)
+		return Colors(r,g,b)
