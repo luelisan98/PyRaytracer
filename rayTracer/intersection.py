@@ -46,7 +46,7 @@ class Intersection():
 	def hit(self,intersections):
 		hit_list = [intersection for intersection in intersections if intersection.t > 0]
 		if not hit_list:
-				return False
+				return None
 		return min(hit_list, default=None)
 		
 	def __lt__(self, other):

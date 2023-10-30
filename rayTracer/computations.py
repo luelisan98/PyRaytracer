@@ -3,6 +3,7 @@ from rayTracer.colors import Colors
 from rayTracer.lights import Lights
 from rayTracer.intersection import Intersection
 
+EPSILON = 0.0001
 
 class Computations():
 	def __init__(self):
@@ -26,10 +27,12 @@ class Computations():
 			self.normalv = -self.normalv
 		else:
 			self.inside = False
+
+		self.over_point = self.point + self.normalv * EPSILON
 		return self
 	
 	def shade_hit(self, world,comps):
-		if world.is_shadowed(comps.point):
+		if world.is_shadowed(comps.over_point):
 			comps.in_shadow = True
 		return Lights().lighting(comps.object.material, world.light, comps.point, comps.eyev, comps.normalv, comps.in_shadow)
 
