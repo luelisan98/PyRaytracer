@@ -7,3 +7,6 @@ class Rays():
 
 	def position(self, t):
 		return self.origin + self.direction * t
+	
+	def to_str(self):
+		return f"Ray - Origin: {self.origin.to_str()}, Direction: {self.direction.to_str()}"

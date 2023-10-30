@@ -66,4 +66,15 @@ class Transformations:
 	
 	@staticmethod
 	def view_transform(p_from, p_to, p_up):
-		pass
+		to_minus_from = p_to - p_from
+		forward = to_minus_from.normalize()
+		upn = p_up.normalize()
+		left = forward.cross(upn)
+		true_up = left.cross(forward)
+		orientation = Matrix(4,4)
+		orientation.mat = [[left.x, left.y, left.z, 0],
+                   [true_up.x, true_up.y, true_up.z, 0],
+                   [-forward.x, -forward.y, -forward.z, 0],
+                   [0, 0, 0, 1]]
+		
+		return orientation * Transformations().translation(-p_from.x, -p_from.y, -p_from.z)

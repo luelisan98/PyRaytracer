@@ -24,9 +24,13 @@ class Intersection():
 	def intersect(self, obj, ray):
 		ray2 = self.transform(ray, obj.transform.inverse())
 		sphere_to_ray = ray2.origin - obj.center
-		a = Tuples().dot(ray2.direction, ray2.direction)
-		b = 2 * Tuples().dot(ray2.direction, sphere_to_ray)
-		c = Tuples().dot(sphere_to_ray, sphere_to_ray) - obj.radius
+		a = Tuples().Vector(ray2.direction.x,ray2.direction.y,ray2.direction.z)
+		a = a.dot(ray2.direction)
+		b = Tuples().Vector(ray2.direction.x,ray2.direction.y,ray2.direction.z)
+		b = b.dot(sphere_to_ray)
+		b = 2 * b
+		c = Tuples().Vector(sphere_to_ray.x,sphere_to_ray.y,sphere_to_ray.z)
+		c = c.dot(sphere_to_ray) - obj.radius
 		discriminant = b**2 - 4 * a * c
 		z = []
 		if discriminant >= 0:
@@ -45,3 +49,12 @@ class Intersection():
 	def __lt__(self, other):
 		return self.t < other.t
 	
+	def intersect_world(self, world, ray):
+		intersections = []
+		h = []
+		for obj in world.objects:
+			h = self.intersect(obj,ray)
+			intersections.extend(h)
+
+		intersections.sort(key=lambda x: x.t)
+		return intersections

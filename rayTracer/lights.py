@@ -16,7 +16,7 @@ class Lights():
 		p = light.position - point
 		lightv = p.normalize()
 		ambient = effective_color * material.ambient
-		light_dot_normal = Tuples().dot(lightv, normalv)
+		light_dot_normal = lightv.dot(normalv)
 		if light_dot_normal < 0 :
 			diffuse = Colors(0,0,0)
 			specular = Colors(0,0,0)
@@ -24,7 +24,7 @@ class Lights():
 			diffuse = effective_color * material.diffuse * light_dot_normal
 			reflectv = -lightv
 			reflectv = reflectv.reflect(normalv)
-			reflect_dot_eye = Tuples().dot(reflectv, eyev)
+			reflect_dot_eye = reflectv.dot(eyev)
 			if reflect_dot_eye <= 0:
 				specular = Colors(0,0,0)
 			else:
