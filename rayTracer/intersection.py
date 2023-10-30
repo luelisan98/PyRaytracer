@@ -61,5 +61,4 @@ class Intersection():
 
 
 		intersections.sort(key=lambda x: x.t)
-		print(intersections)
 		return intersections
