@@ -11,26 +11,29 @@ class Lights():
 		self.intensity = intensity
 		return self
 
-	def lighting(self, material, light, point, eyev, normalv, in_shadow=None):
+	def lighting(self, material, light, point, eyev, normalv, in_shadow=False):
 		effective_color = material.color * light.intensity
-		p = light.position - point
-		lightv = p.normalize()
 		ambient = effective_color * material.ambient
-		light_dot_normal = lightv.dot(normalv)
-		if light_dot_normal < 0 :
-			diffuse = Colors(0,0,0)
-			specular = Colors(0,0,0)
+		if in_shadow == True:
+			return ambient
 		else:
-			diffuse = effective_color * material.diffuse * light_dot_normal
-			reflectv = -lightv
-			reflectv = reflectv.reflect(normalv)
-			reflect_dot_eye = reflectv.dot(eyev)
-			if reflect_dot_eye <= 0:
+			p = light.position - point
+			lightv = p.normalize()
+			light_dot_normal = lightv.dot(normalv)
+			if light_dot_normal < 0:
+				diffuse = Colors(0,0,0)
 				specular = Colors(0,0,0)
 			else:
-				factor = reflect_dot_eye ** material.shininess
-				specular = light.intensity * material.specular * factor
-
+				diffuse = effective_color * material.diffuse * light_dot_normal
+				reflectv = -lightv
+				reflectv = reflectv.reflect(normalv)
+				reflect_dot_eye = reflectv.dot(eyev)
+				if reflect_dot_eye <= 0:
+					specular = Colors(0,0,0)
+				else:
+					factor = reflect_dot_eye ** material.shininess
+					specular = light.intensity * material.specular * factor
+		print(ambient.to_str(), diffuse.to_str(), specular.to_str())
 		return ambient + diffuse + specular
 
 	def __eq__(self, other):
