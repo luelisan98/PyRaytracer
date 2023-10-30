@@ -15,7 +15,7 @@ class Canvas():
 	def pixel_at(self, x, y):
 		return round(self.grid[x][y] * 255)
 
-# Adapted from: https://www.superperfundo.dev/articles/ray-tracer-part1 
+# Adapted from: https://codeclimber.net.nz/archive/2019/06/10/the-ray-tracer-challenge-drawing-to-a-canvas-and-saving-the-image-to-a-file/
 	def canvas_to_ppm(self, file_path):
 		builder = StringIO()
 		builder.write("P3\n")
