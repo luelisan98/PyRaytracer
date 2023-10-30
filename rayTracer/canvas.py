@@ -1,6 +1,7 @@
 from rayTracer.colors import Colors
 
 from math import ceil
+from io import StringIO
 
 class Canvas():
 	def __init__(self, w, h, color = Colors(0,0,0)):
@@ -14,30 +15,30 @@ class Canvas():
 	def pixel_at(self, x, y):
 		return round(self.grid[x][y] * 255)
 
+# Adapted from: https://www.superperfundo.dev/articles/ray-tracer-part1 
 	def canvas_to_ppm(self, file_path):
-		with open(file_path, 'w') as file:
-			file.write("P3\n")
-			file.write(f"{self.width} {self.height}\n")
-			file.write("255\n")
-			for row in range(self.height):
-				ppm_row = []
-				for col in range(self.width):
-					# Access the element at the current row and column
-					element = self.pixel_at(col, row)
-					red = ceil(element.r)
-					green = ceil(element.g)
-					blue = ceil(element.b)
-
-					red = max(0, min(255, red))
-					green = max(0, min(255, green))
-					blue = max(0, min(255, blue))
-
-					ppm_row.extend([red, green, blue])
-					
-				# break into at most 17 elements per line to stay < 70 chars
-				for line in [ppm_row[i: i + 17] for i in range(0, len(ppm_row), 17)]:
-					file.write(" ".join(str(c) for c in line) + " ")
-				file.write("\n")
+		builder = StringIO()
+		builder.write("P3\n")
+		builder.write(f"{self.width} {self.height}\n")
+		builder.write("255\n")
+		
+		for y in range(self.height):
+			line_length = 0
+			for x in range(self.width):
+				color_a = self.grid[x][y].to_rgba()
+				for color in color_a:
+					if line_length + 1 + len(color) > 70:
+						builder.write("\n")
+						line_length = 0
+					if line_length != 0:
+						builder.write(" ")
+						line_length += 1
+					builder.write(color)
+					line_length += len(color)
+			builder.write("\n")
+		
+			with open(file_path, 'w') as f:
+				f.write(builder.getvalue())
 
 	def __str__(self):
 		lines = []
