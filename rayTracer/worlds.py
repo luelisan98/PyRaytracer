@@ -4,6 +4,8 @@ from rayTracer.colors import Colors
 from rayTracer.sphere import Sphere
 from rayTracer.transformations import Transformations
 from rayTracer.materials import Materials
+from rayTracer.rays import Rays
+from rayTracer.intersection import Intersection
 
 class World():
 	def __init__(self):
@@ -35,5 +37,18 @@ class World():
 		self.objects.append(s2)
 		return self
 	
+	def is_shadowed(self,p):
+		v = self.light.position - p
+		distance = v.magnitude()
+		direction = v.normalize()
+		r = Rays(p, direction)
+		intersections = Intersection().intersect_world(self, r)
+		h = Intersection().hit(intersections)
+		if h and h.t < distance:
+			return True
+		else:
+			return False
+
+
 	def __eq__(self, other):
 		return self.light == other.light and self.objects == other.objects

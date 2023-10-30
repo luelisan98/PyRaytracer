@@ -13,6 +13,7 @@ class Computations():
 		self.normalv = None
 		self.inside = None
 		self.over_point = Tuples().Point(0,0,0)
+		self.in_shadow = False
 
 	def prepare_computations(self,i,r):
 		self.t = i.t
@@ -28,7 +29,9 @@ class Computations():
 		return self
 	
 	def shade_hit(self, world,comps):
-		return Lights().lighting(comps.object.material, world.light, comps.point, comps.eyev, comps.normalv)
+		if world.is_shadowed(comps.point):
+			comps.in_shadow = True
+		return Lights().lighting(comps.object.material, world.light, comps.point, comps.eyev, comps.normalv, comps.in_shadow)
 
 	def color_at(self, world, ray):
 		ints_world = Intersection().intersect_world(world, ray)

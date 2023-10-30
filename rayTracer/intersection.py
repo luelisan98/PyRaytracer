@@ -7,6 +7,9 @@ class Intersection():
 		self.t = t
 		self.obj = obj
 
+	def to_str(self):
+		print("t: " + str(self.t), "obj: " + self.obj.to_str())
+
 	def intersections(*intersections):
 		v = []
 		for i in intersections:
@@ -41,9 +44,9 @@ class Intersection():
 		return z
 	
 	def hit(self,intersections):
-		hit_list = [intersection for intersection in intersections if intersection.t >= 0]
+		hit_list = [intersection for intersection in intersections if intersection.t > 0]
 		if not hit_list:
-				return None
+				return False
 		return min(hit_list, default=None)
 		
 	def __lt__(self, other):
