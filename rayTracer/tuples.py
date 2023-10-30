@@ -66,7 +66,7 @@ class Tuples:
 
 	def normalize(self):
 		mag = self.magnitude()
-		if mag == 0:
+		if self.equal(mag, 0):
 			return Tuples(0, 0, 0, 0)
 		else:
 			return self / mag

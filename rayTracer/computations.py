@@ -2,6 +2,7 @@ from rayTracer.tuples import Tuples
 from rayTracer.colors import Colors
 from rayTracer.lights import Lights
 from rayTracer.intersection import Intersection
+from rayTracer.worlds import World
 
 EPSILON = 0.0001
 
@@ -32,8 +33,7 @@ class Computations():
 		return self
 	
 	def shade_hit(self, world,comps):
-		if world.is_shadowed(comps.over_point):
-			comps.in_shadow = True
+		comps.in_shadow =  world.is_shadowed(comps.over_point)
 		return Lights().lighting(comps.object.material, world.light, comps.point, comps.eyev, comps.normalv, comps.in_shadow)
 
 	def color_at(self, world, ray):

@@ -57,7 +57,7 @@ def main():
     world.objects.append(right)
     world.objects.append(left)
 
-    camera = Camera(300, 150, math.pi/3)
+    camera = Camera(150, 300, math.pi/3)
     camera.transform = Transformations().view_transform(Tuples().Point(0, 1.5, -5),
                                                         Tuples().Point(0, 1, 0),
                                                         Tuples().Vector(0, 1, 0))

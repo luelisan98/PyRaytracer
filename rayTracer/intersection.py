@@ -59,5 +59,7 @@ class Intersection():
 			h = self.intersect(obj,ray)
 			intersections.extend(h)
 
+
 		intersections.sort(key=lambda x: x.t)
+		print(intersections)
 		return intersections

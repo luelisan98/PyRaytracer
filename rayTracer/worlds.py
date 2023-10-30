@@ -38,6 +38,7 @@ class World():
 		return self
 	
 	def is_shadowed(self,p):
+		result = False
 		v = self.light.position - p
 		distance = v.magnitude()
 		direction = v.normalize()
@@ -45,9 +46,10 @@ class World():
 		intersections = Intersection().intersect_world(self, r)
 		h = Intersection().hit(intersections)
 		if h and h.t < distance:
-			return True
+			result =  True
 		else:
-			return False
+			result = False
+		return result
 
 
 	def __eq__(self, other):
