@@ -28,7 +28,6 @@ def test_eye_between_light_surface():
     light.point_light(light_position, intensity)
     expected_color = Colors(1.9, 1.9, 1.9)
     result = light.lighting(m, light, position, eyev, normalv)
-    print(result.to_str())
     assert result == expected_color
 
 def test_light_surface_eye_offset_45():

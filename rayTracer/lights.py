@@ -33,7 +33,6 @@ class Lights():
 				else:
 					factor = reflect_dot_eye ** material.shininess
 					specular = light.intensity * material.specular * factor
-		print(ambient.to_str(), diffuse.to_str(), specular.to_str())
 		return ambient + diffuse + specular
 
 	def __eq__(self, other):
