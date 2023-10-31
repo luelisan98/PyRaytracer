@@ -29,7 +29,7 @@ def main():
 	right_wall.material = floor.material
 	
 	material_blue = Materials()
-	material_blue.color = Colors(0.137255, 0.137255, 0.556863)
+	material_blue.color = Colors(0.137255, 0.419608, 0.556863)
 	material_blue.ambient = 0.2
 	material_blue.specular = 0.3
 	material_blue.diffuse = 0.8
@@ -52,11 +52,11 @@ def main():
 	head.material = material_blue
 
 	arm1 = Sphere()
-	arm1.transform = Transformations().translation(-0.5, 0, 0) * Transformations().scaling(-0.37,1,1) * Transformations().rotation_z(0.4)
+	arm1.transform = Transformations().translation(-0.5, 0, 0) * Transformations().scaling(-0.35,1,1) * Transformations().rotation_z(0.4)
 	arm1.material = material_blue
 
 	arm2 = Sphere()
-	arm2.transform = Transformations().translation(0.5, 0, 0) * Transformations().scaling(-0.37,1,1) * Transformations().rotation_z(-0.4)
+	arm2.transform = Transformations().translation(0.5, 0, 0) * Transformations().scaling(-0.35,1,1) * Transformations().rotation_z(-0.4)
 	arm2.material = material_blue 
 
 	
