@@ -59,6 +59,21 @@ def main():
 	arm2.transform = Transformations().translation(0.5, 0, 0) * Transformations().scaling(-0.35,1,1) * Transformations().rotation_z(-0.4)
 	arm2.material = material_blue 
 
+	base1 = Sphere()
+	base1.transform = Transformations().translation(-1, 0, 1)
+	base1.material = material_green
+
+	head1 = Sphere()
+	head1.transform = Transformations().translation(-1, 1.5, 1) * Transformations().scaling(0.5,0.5,0.5)
+	head1.material = material_green
+
+	arm11 = Sphere()
+	arm11.transform = Transformations().translation(-1.5, 0, 1) * Transformations().scaling(-0.35,1,1) * Transformations().rotation_z(0.4)
+	arm11.material = material_green
+
+	arm21 = Sphere()
+	arm21.transform = Transformations().translation(-0.5, 0, 1) * Transformations().scaling(-0.35,1,1) * Transformations().rotation_z(-0.4)
+	arm21.material = material_green 
 	
 	
 	world.objects.append(floor)
@@ -70,13 +85,18 @@ def main():
 	world.objects.append(arm1)
 	world.objects.append(arm2)
 
+	world.objects.append(base1)
+	world.objects.append(head1)
+	world.objects.append(arm11)
+	world.objects.append(arm21)
+
 	
-	camera = Camera(150, 75, math.pi/3)
+	camera = Camera(300 * 4, 150 *4 , math.pi/3)
 	camera.transform = Transformations().view_transform(Tuples().Point(0, 1.5, -5),
 														Tuples().Point(0, 1, 0),
 														Tuples().Vector(0, 1, 0))
 	canvas = camera.render(world)
-	canvas.canvas_to_ppm("purpleCircle2.ppm")
+	canvas.canvas_to_ppm("escena1.ppm")
 	
    
 if __name__ == "__main__":
