@@ -86,7 +86,7 @@ def main():
 														Tuples().Point(0, 1, 0),
 														Tuples().Vector(0, 1, 0))
 	canvas = camera.render(world)
-	canvas.canvas_to_ppm("purpleCircle2.ppm")
+	canvas.canvas_to_ppm("esfera3.ppm")
 	
    
 if __name__ == "__main__":

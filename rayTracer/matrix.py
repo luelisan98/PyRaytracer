@@ -78,11 +78,11 @@ class Matrix():
 		sub_row = 0
 		for row in range(self.rows):
 			if row == row_sub:
-				continue  # Skip the specified row
+				continue  
 			sub_col = 0
 			for col in range(self.cols):
 				if col == col_sub:
-					continue  # Skip the specified column
+					continue  
 				submatrix.mat[sub_row][sub_col] = self.mat[row][col]
 				sub_col += 1
 			sub_row += 1
@@ -90,7 +90,6 @@ class Matrix():
 		return submatrix
 
 	def minor(self, row_sub, col_sub):
-		# Calculate the minor by computing the determinant of the submatrix
 		submatrix = self.submatrix(row_sub, col_sub)
 		minor_value = submatrix.determinant()
 
