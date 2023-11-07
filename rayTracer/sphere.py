@@ -1,22 +1,21 @@
 from rayTracer.tuples import Tuples
 from rayTracer.matrix import Matrix
-from rayTracer.intersection import Intersection
+from rayTracer.rays import Rays
 from rayTracer.materials import Materials
+from rayTracer.shapes import Shape
+from rayTracer.intersection import Intersection
 import math
 import uuid
 
 EPSILON = 0.00001
 
-class Sphere():	
-	def __init__(self, center=Tuples().Point(0, 0, 0), radius=1):
+class Sphere(Shape):	
+	def __init__(self):
+		Shape.__init__(self)
 		self.id = uuid.uuid4()
-		self.center = center
-		self.radius = radius
-		self.transform = Matrix(4,4).identity()
-		self.material = Materials()
-		
+
 	def set_transform(self, mat_transform):
-		self.transform = mat_transform
+		Shape.set_transform(self,mat_transform)
 		return self
 		
 	def normal_at(self, world_point):
@@ -26,14 +25,8 @@ class Sphere():
 		world_normal.w = 0
 		return world_normal.normalize()
 	
-	def to_str(self):
-		return f"Sphere ID: {self.id}, Center: {self.center.to_str()}, Radius: {self.radius}, Transform: {self.transform.mat}, Material: {self.material.to_str()}"
-
-	def equal(self, a, b):
-		return abs(a - b) < EPSILON
-
 	def __eq__(self, other):
-		return self.center == other.center \
-			and self.equal(self.radius, other.radius) \
-			and self.transform == other.transform \
-			and self.material == other.material
+		return Shape.__eq__(self,other)
+	
+	def local_intersect(self,ray):
+		return Intersection.intersect(self,ray)

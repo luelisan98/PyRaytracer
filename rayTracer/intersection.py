@@ -26,14 +26,14 @@ class Intersection():
 	
 	def intersect(self, obj, ray):
 		ray2 = self.transform(ray, obj.transform.inverse())
-		sphere_to_ray = ray2.origin - obj.center
+		sphere_to_ray = ray2.origin - Tuples().Point(0, 0, 0)
 		a = Tuples().Vector(ray2.direction.x,ray2.direction.y,ray2.direction.z)
 		a = a.dot(ray2.direction)
 		b = Tuples().Vector(ray2.direction.x,ray2.direction.y,ray2.direction.z)
 		b = b.dot(sphere_to_ray)
 		b = 2 * b
 		c = Tuples().Vector(sphere_to_ray.x,sphere_to_ray.y,sphere_to_ray.z)
-		c = c.dot(sphere_to_ray) - obj.radius
+		c = c.dot(sphere_to_ray) - 1
 		discriminant = b**2 - 4 * a * c
 		z = []
 		if discriminant >= 0:
