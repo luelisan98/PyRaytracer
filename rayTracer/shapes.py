@@ -21,7 +21,7 @@ class Shape():
 	
 	def local_intersect(self, ray):
 		self.saved_ray = ray
-		return self
+		return self.saved_ray
 	
 	def object_normal(self, point):
 		return Tuples().Vector(point.x,point.y,point.z)
@@ -29,6 +29,9 @@ class Shape():
 	def __eq__(self, other):
 		return  self.transform == other.transform \
 			and self.material == other.material
+	
+	def local_normal_at(self,point):
+		return Tuples().Vector(point.x, point.y, point.z)
 	
 	def normal_at(self,point):
 		local_point = self.transform.inverse() * point
@@ -38,6 +41,3 @@ class Shape():
 		world_normal.w = 0
 
 		return world_normal.normalize()
-
-	def local_normal_at(self,point):
-		return Tuples().Vector(point.x, point.y, point.z)

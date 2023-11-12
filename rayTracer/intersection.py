@@ -1,6 +1,9 @@
 from rayTracer.rays import Rays
 from rayTracer.tuples import Tuples
+
 import math
+
+EPSILON = 0.00001
 
 class Intersection():
 	def __init__(self,t=None,obj=None):
@@ -8,12 +11,13 @@ class Intersection():
 		self.obj = obj
 
 	def to_str(self):
-		print("t: " + str(self.t), "obj: " + self.obj.to_str())
+		return "t: " + str(self.t), "obj: " + self.obj.to_str()
 
 	def intersections(*intersections):
 		v = []
 		for i in intersections:
-			v.append(i)
+			if i.t is not None and i.obj is not None:
+				v.append(i)
 		return v
 
 	def __eq__(self, other):
@@ -56,9 +60,7 @@ class Intersection():
 		intersections = []
 		h = []
 		for obj in world.objects:
-			h = self.intersect(obj,ray)
+			h = obj.intersect(ray)
 			intersections.extend(h)
-
-
 		intersections.sort(key=lambda x: x.t)
 		return intersections
