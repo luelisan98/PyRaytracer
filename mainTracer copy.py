@@ -16,24 +16,23 @@ def main():
 	floor.material.color = Colors(1,0.9,0.9)
 	
 	middle = Sphere()
-	middle.transform = Transformations.translation(-0.5, 1, 0.5)
+	middle.transform = Transformations().translation(-0.5, 1, 0.5)
 	middle.material = Materials()
-	middle.material.colour = Colors(0.1, 1, 0.5)
+	middle.material.color = Colors(0.1, 1, 0.5)
 	middle.material.diffuse = 0.7
 	middle.material.specular = 0.3
 
 	right = Sphere()
-	right.transform = Transformations.translation(1.5, 0.5, -0.5) * Transformations.scaling(0.5, 0.5, 0.5)
+	right.transform = Transformations().translation(1.5, 0.5, -0.5) * Transformations().scaling(0.5, 0.5, 0.5)
 	right.material = Materials()
-	right.material.colour = Colors(0.5, 1, 0.1)
+	right.material.color = Colors(0.5, 1, 0.1)
 	right.material.diffuse = 0.7
 	right.material.specular = 0.3
 
-
 	left = Sphere()
-	left.transform = Transformations.translation(-1.5, 0.33, -0.75) * Transformations.scaling(0.33, 0.33, 0.33)
+	left.transform = Transformations().translation(-1.5, 0.33, -0.75) * Transformations().scaling(0.33, 0.33, 0.33)
 	left.material = Materials()
-	left.material.colour = Colors(1, 0.8, 0.1)
+	left.material.color = Colors(1, 0.8, 0.1)
 	left.material.diffuse = 0.7
 	left.material.specular = 0.3
 
