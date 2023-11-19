@@ -10,6 +10,7 @@ class Materials():
 		self.diffuse = 0.9
 		self.specular = 0.9
 		self.shininess = 200.0
+		self.pattern = None 
 
 	def equal(self, a, b):
 		return abs(a - b) < EPSILON
@@ -21,6 +22,7 @@ class Materials():
 			and self.equal(self.diffuse, other.diffuse)
 			and self.equal(self.specular, other.specular)
 			and self.equal(self.shininess, other.shininess)
+			and self.pattern == other.pattern
 		)
 	
 	def to_str(self):

@@ -3,6 +3,8 @@ from rayTracer.materials import Materials
 from rayTracer.tuples import Tuples
 from rayTracer.colors import Colors
 from rayTracer.lights import Lights
+from rayTracer.pattern import Pattern
+
 
 def test_default_material():
     m = Materials()
@@ -109,4 +111,20 @@ def test_lighting_surface_in_shadow():
     in_shadow = True
     result = light.lighting(m, light, position, eyev, normalv, in_shadow)
     assert result == Colors(0.1, 0.1, 0.1)
+    
+def test_lighting_with_pattern():
+    m = Materials()
+    m.pattern = Pattern().stripe_pattern(Colors(1,1,1), Colors(0,0,0))
+    m.ambient = 1
+    m.diffuse = 0
+    m.specular = 0
+    eyev = Tuples().Vector(0,0,-1)
+    normalv = Tuples().Vector(0,0,-1)
+    light = Lights()
+    light.point_light(Tuples().Point(0, 0, -10), Colors(1,1,1))
+    c1 = light.lighting(m, light, Tuples().Point(0.9,0,0), eyev, normalv, False)
+    c2 = light.lighting(m, light, Tuples().Point(1.1,0,0), eyev, normalv, False)
+    assert c1 == Colors(1,1,1)
+    assert c2 == Colors(0,0,0)
+    
     

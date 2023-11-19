@@ -12,6 +12,9 @@ class Lights():
 		return self
 
 	def lighting(self, material, light, point, eyev, normalv, in_shadow=False):
+
+		if material.pattern is not None: 
+			material.color = material.pattern.stripe_at(point)
 		effective_color = material.color * light.intensity
 		p = light.position - point
 		lightv = p.normalize()
