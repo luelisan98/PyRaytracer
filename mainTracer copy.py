@@ -6,7 +6,7 @@ from rayTracer.materials import Materials
 from rayTracer.transformations import Transformations
 from rayTracer.camera import Camera
 from rayTracer.plane import Plane
-from rayTracer.pattern import Pattern
+from rayTracer.pattern import Stripe
 import math
 
 def main():
@@ -15,7 +15,7 @@ def main():
 	floor.transform = Transformations().translation(0,0,0)
 	floor.material = Materials()
 	floor.material.color = Colors(1,0.9,0.9)
-	floor.material.pattern = Pattern().stripe_pattern(Colors(1,0,0), Colors(0,1,0))
+	floor.material.pattern = Stripe(Colors(1,0,0), Colors(0,1,0))
 
 	
 	middle = Sphere()
@@ -24,25 +24,21 @@ def main():
 	middle.material.color = Colors(0.1, 1, 0.5)
 	middle.material.diffuse = 0.7
 	middle.material.specular = 0.3
-	middle.material.pattern = Pattern().stripe_pattern(Colors(1,0,0), Colors(0,1,0))
-
-
+	middle.material.pattern = Stripe(Colors(1,0,0), Colors(0,1,0))
 	right = Sphere()
 	right.transform = Transformations().translation(1.5, 0.5, -0.5) * Transformations().scaling(0.5, 0.5, 0.5)
 	right.material = Materials()
 	right.material.color = Colors(0.5, 1, 0.1)
 	right.material.diffuse = 0.7
 	right.material.specular = 0.3
-	right.material.pattern = Pattern().stripe_pattern(Colors(1,0,0), Colors(0,1,0))
-
+	right.material.pattern =Stripe(Colors(1,0,0), Colors(0,1,0))
 	left = Sphere()
 	left.transform = Transformations().translation(-1.5, 0.33, -0.75) * Transformations().scaling(0.33, 0.33, 0.33)
 	left.material = Materials()
 	left.material.color = Colors(1, 0.8, 0.1)
 	left.material.diffuse = 0.7
 	left.material.specular = 0.3
-	left.material.pattern = Pattern().stripe_pattern(Colors(1,0,0), Colors(0,1,0))
-
+	left.material.pattern = Stripe(Colors(1,0,0), Colors(0,1,0))
 
 	world = World()
 	world.light.point_light(Tuples().Point(-10, 10, -10),

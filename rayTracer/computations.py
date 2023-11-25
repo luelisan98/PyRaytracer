@@ -34,7 +34,7 @@ class Computations():
 	
 	def shade_hit(self, world,comps):
 		comps.in_shadow =  world.is_shadowed(comps.over_point)
-		return Lights().lighting(comps.object.material, world.light, comps.point, comps.eyev, comps.normalv, comps.in_shadow)
+		return Lights().lighting(comps.object.material, comps.object, world.light, comps.point, comps.eyev, comps.normalv, comps.in_shadow)
 
 	def color_at(self, world, ray):
 		ints_world = Intersection().intersect_world(world, ray)

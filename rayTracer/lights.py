@@ -11,10 +11,10 @@ class Lights():
 		self.intensity = intensity
 		return self
 
-	def lighting(self, material, light, point, eyev, normalv, in_shadow=False):
-
+	def lighting(self, material, obj,light, point, eyev, normalv, in_shadow=False):
 		if material.pattern is not None: 
-			material.color = material.pattern.stripe_at(point)
+			print(obj)
+			material.color = material.pattern.pattern_at_shape(obj,point)
 		effective_color = material.color * light.intensity
 		p = light.position - point
 		lightv = p.normalize()
