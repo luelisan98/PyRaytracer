@@ -3,7 +3,7 @@ from rayTracer.materials import Materials
 from rayTracer.tuples import Tuples
 from rayTracer.colors import Colors
 from rayTracer.lights import Lights
-from rayTracer.pattern import Pattern
+from rayTracer.pattern import Stripe
 
 
 def test_default_material():
@@ -114,7 +114,7 @@ def test_lighting_surface_in_shadow():
     
 def test_lighting_with_pattern():
     m = Materials()
-    m.pattern = Pattern().stripe_pattern(Colors(1,1,1), Colors(0,0,0))
+    m.pattern = Stripe(Colors(1,1,1), Colors(0,0,0))
     m.ambient = 1
     m.diffuse = 0
     m.specular = 0
