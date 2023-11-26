@@ -14,6 +14,7 @@ def test_default_material():
     assert m.diffuse == 0.9
     assert m.specular == 0.9
     assert m.shininess == 200.0
+    assert m.reflective == 0.0
     assert m.pattern == None
 
 def test_eye_between_light_surface():

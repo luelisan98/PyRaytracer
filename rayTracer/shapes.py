@@ -16,7 +16,7 @@ class Shape():
 		self.transform = mat_transform
 	
 	def intersect(self, ray):
-		local_ray = Intersection().transform(ray, self.transform.inverse()) 
+		local_ray = ray.transform(self.transform.inverse()) 
 		return self.local_intersect(local_ray)
 	
 	def local_intersect(self, ray):
@@ -39,5 +39,4 @@ class Shape():
 		inverse = self.transform.inverse() 
 		world_normal = inverse.transposing() * local_normal
 		world_normal.w = 0
-
 		return world_normal.normalize()

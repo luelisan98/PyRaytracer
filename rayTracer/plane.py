@@ -3,12 +3,13 @@ from rayTracer.shapes import Shape
 from rayTracer.tuples import Tuples
 from rayTracer.intersection import Intersection
 
-EPSILON = 0.00001
+EPSILON = 0.0001
 
 class Plane(Shape):
-	def __init__(self):
-		super().__init__()
 	
+	def to_str(self):
+		return "Plane"
+
 	def local_normal_at(self, point):
 		return Tuples().Vector(0,1,0)
 	

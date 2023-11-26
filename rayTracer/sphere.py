@@ -15,6 +15,9 @@ class Sphere(Shape):
 		Shape.set_transform(self,mat_transform)
 		return self
 		
+	def to_str(self):
+		return "Sphere"
+
 	def __eq__(self, other):
 		return Shape.__eq__(self,other)
 	

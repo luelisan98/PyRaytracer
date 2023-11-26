@@ -4,6 +4,9 @@ from rayTracer.computations import Computations
 from rayTracer.tuples import Tuples
 from rayTracer.rays import Rays
 from rayTracer.transformations import Transformations
+from rayTracer.plane import Plane
+
+import math
 
 EPSILON = 0.00001
 
@@ -105,3 +108,10 @@ def test_hit_should_offset_point():
     comps = Computations().prepare_computations(i, r)
     assert comps.over_point.z < -EPSILON/2
     assert comps.point.z > comps.over_point.z
+    
+def test_preparecomps_reflection_vector():
+    shape = Plane()
+    r = Rays(Tuples().Point(0,1,-1), Tuples().Vector(0, -math.sqrt(2) / 2, math.sqrt(2) /2))
+    i = Intersection(math.sqrt(2), shape)
+    comps = Computations().prepare_computations(i,r)
+    assert comps.reflectv == Tuples().Vector(0, math.sqrt(2) / 2, math.sqrt(2) / 2)

@@ -10,3 +10,6 @@ class Rays():
 	
 	def to_str(self):
 		return f"Ray - Origin: {self.origin.to_str()}, Direction: {self.direction.to_str()}"
+
+	def transform(self, transform):
+		return Rays(transform * self.origin, transform * self.direction)

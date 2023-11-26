@@ -9,6 +9,9 @@ from rayTracer.colors import Colors
 from rayTracer.lights import Lights
 from rayTracer.materials import Materials
 from rayTracer.transformations import Transformations
+from rayTracer.plane import Plane
+
+import math
 
 def test_creating_world():
     world = World()
@@ -180,3 +183,26 @@ def test_shade_hit_given_intersection_in_shadow():
     comps = Computations().prepare_computations(i, r)
     c = comps.shade_hit(w,comps)
     assert c == Colors(0.1, 0.1, 0.1)
+    
+def test_reflected_color_nonreflective_material():
+    w = World().default_world()
+    r = Rays(Tuples().Point(0,0,0), Tuples().Vector(0,0,1))
+    shape = w.objects[1]
+    shape.material.ambient = 1 
+    i = Intersection(1, shape)
+    comps = Computations().prepare_computations(i,r)
+    color = comps.reflected_color(w)
+    assert color == Colors(0,0,0)
+    
+def test_reflected_reflective_material():
+    w = World().default_world()
+    shape = Plane()
+    shape.material.reflective = 0.5
+    shape.set_transform(Transformations().translation(0, -1, 0))
+    w.objects.append(shape)
+    r = Rays(Tuples().Point(0, 0, -3), Tuples().Vector(0, -math.sqrt(2) / 2, math.sqrt(2) / 2))
+    i = Intersection(math.sqrt(2), shape)
+    comps = Computations().prepare_computations(i,r)
+    color = comps.reflected_color(w)
+    print(color)
+    assert color == Colors(0.19032, 0.2379, 0.14274)

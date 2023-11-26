@@ -3,6 +3,7 @@ from rayTracer.colors import Colors
 from rayTracer.lights import Lights
 from rayTracer.intersection import Intersection
 from rayTracer.worlds import World
+from rayTracer.rays import Rays
 
 EPSILON = 0.0001
 
@@ -14,10 +15,12 @@ class Computations():
 		self.eyev = None
 		self.normalv = None
 		self.inside = None
+		self.reflectv = None
 		self.over_point = Tuples().Point(0,0,0)
 		self.in_shadow = False
 
 	def prepare_computations(self,i,r):
+
 		self.t = i.t
 		self.object = i.obj
 		self.point = r.position(self.t)
@@ -29,6 +32,7 @@ class Computations():
 		else:
 			self.inside = False
 
+		self.reflectv = r.direction.reflect(self.normalv)
 		self.over_point = self.point + self.normalv * EPSILON
 		return self
 	
@@ -40,6 +44,16 @@ class Computations():
 		ints_world = Intersection().intersect_world(world, ray)
 		hit = Intersection().hit(ints_world)
 		if hit:
+			print(hit.t, hit.obj)
 			comps = self.prepare_computations(hit,ray)
 			return self.shade_hit(world, comps)
 		return Colors(0,0,0)
+	
+	def reflected_color(self, world):
+		if self.object.material.reflective == 0:
+			return Colors(0,0,0)
+			
+		reflected_ray = Rays(self.over_point, self.reflectv)
+		color = self.color_at(world, reflected_ray)
+		print("reflected color:", color, self.object.material.reflective, self.object)
+		return color * self.object.material.reflective
