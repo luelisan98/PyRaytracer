@@ -36,24 +36,29 @@ class Computations():
 		self.over_point = self.point + self.normalv * EPSILON
 		return self
 	
-	def shade_hit(self, world,comps):
+	def shade_hit(self, world,comps, remaining = 5):
 		comps.in_shadow =  world.is_shadowed(comps.over_point)
-		return Lights().lighting(comps.object.material, comps.object, world.light, comps.point, comps.eyev, comps.normalv, comps.in_shadow)
+		surface =  Lights().lighting(comps.object.material, comps.object, world.light, comps.point, comps.eyev, comps.normalv, comps.in_shadow)
+		reflected = self.reflected_color(world, comps,remaining)
+		return surface + reflected
 
-	def color_at(self, world, ray):
+	def color_at(self, world, ray,remaining = 5):
 		ints_world = Intersection().intersect_world(world, ray)
 		hit = Intersection().hit(ints_world)
 		if hit:
-			print(hit.t, hit.obj)
 			comps = self.prepare_computations(hit,ray)
-			return self.shade_hit(world, comps)
+			return self.shade_hit(world, comps, remaining)
 		return Colors(0,0,0)
 	
-	def reflected_color(self, world):
-		if self.object.material.reflective == 0:
+	def reflected_color(self, world,comps,remaining = 5):
+
+		if remaining <= 0:
+			return Colors(0,0,0)
+		
+
+		if comps.object.material.reflective == 0:
 			return Colors(0,0,0)
 			
-		reflected_ray = Rays(self.over_point, self.reflectv)
-		color = self.color_at(world, reflected_ray)
-		print("reflected color:", color, self.object.material.reflective, self.object)
-		return color * self.object.material.reflective
+		reflected_ray = Rays(comps.over_point, comps.reflectv)
+		color = self.color_at(world, reflected_ray, remaining -1)
+		return color * comps.object.material.reflective
