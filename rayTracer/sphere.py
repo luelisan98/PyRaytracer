@@ -37,3 +37,8 @@ class Sphere(Shape):
 			z.append(Intersection(t1,self))
 			z.append(Intersection(t2,self))
 		return z
+	
+	def glass_sphere(self):
+		self.material.transparency = 1.0 
+		self.material.refractive_index = 1.5
+		return self

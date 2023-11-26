@@ -170,3 +170,9 @@ def test_sphere_assigned_material():
     m.ambient = 1
     sphere.material = m
     assert m == sphere.material
+
+def test_glassy_sphere():
+    s = Sphere().glass_sphere()
+    assert s.transform == Matrix(4,4).identity()
+    assert s.material.transparency == 1.0
+    assert s.material.refractive_index == 1.5

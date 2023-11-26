@@ -19,3 +19,6 @@ class Plane(Shape):
 			return []
 		t = -local_ray.origin.y / local_ray.direction.y 
 		return Intersection().intersections(Intersection(t,self))
+	
+	def __eq__(self, other):
+		return super().__eq__(other)

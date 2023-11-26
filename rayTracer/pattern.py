@@ -11,6 +11,9 @@ class Pattern():
 		p = Pattern()
 		return p
 
+	def pattern_at(self, point):
+		return Colors(point.x, point.y, point.z)
+		
 	def pattern_at_shape(self, obj, world_point):
 		object_point = obj.transform.inverse() * world_point
 		pattern_point = self.transform.inverse() * object_point

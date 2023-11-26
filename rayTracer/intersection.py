@@ -21,7 +21,7 @@ class Intersection():
 		return v
 
 	def __eq__(self, other):
-		return self.t == other.t and self.obj.id == other.obj.id
+		return self.t == other.t and self.obj == other.obj
 
 	def transform(self, ray, matrix):
 		new_origin = matrix * ray.origin
