@@ -10,6 +10,9 @@ import math
 
 EPSILON = 0.00001
 
+def equal(a, b):
+		return abs(a - b) < EPSILON
+
 def test_intersection_encapsulates_t():
 	s1 = Sphere()
 	inter = Intersection(3.5, s1)
@@ -157,3 +160,28 @@ def test_point_below_surface():
 	comps = Computations().prepare_computations(i,r,xs)
 	assert comps.under_point.z > EPSILON/2
 	assert comps.point.z < comps.under_point.z
+
+def test_schlick_approximation_total_internal_reflection():
+	shape = Sphere().glass_sphere()
+	r = Rays(Tuples().Point(0,0,math.sqrt(2)/2), Tuples().Vector(0,1,0))
+	xs = Intersection().intersections(Intersection(-math.sqrt(2)/2, shape), Intersection(math.sqrt(2)/2, shape))
+	comps = Computations().prepare_computations(xs[1], r, xs)
+	reflectance = Computations().schlick(comps)
+	assert reflectance == 1.0
+
+def test_schlick_perpendicular_angle():
+	shape = Sphere().glass_sphere()
+	r = Rays(Tuples().Point(0,0,0), Tuples().Vector(0,1,0))
+	xs = Intersection().intersections(Intersection(-1,shape), Intersection(1,shape))
+	comps = Computations().prepare_computations(xs[1], r, xs)
+	reflectance = Computations().schlick(comps)
+	assert equal(reflectance, 0.04)
+
+def test_schlick_approximation_small_angle_n2_greater_n1():
+	shape = Sphere().glass_sphere()
+	r = Rays(Tuples().Point(0,0.99,-2), Tuples().Vector(0,0,1))
+	xs = Intersection().intersections(Intersection(1.8589,shape))
+	comps = Computations().prepare_computations(xs[0], r, xs)
+	reflectance = Computations().schlick(comps)
+	assert equal(reflectance, 0.48873)
+

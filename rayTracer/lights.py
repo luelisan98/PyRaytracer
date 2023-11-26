@@ -13,7 +13,6 @@ class Lights():
 
 	def lighting(self, material, obj,light, point, eyev, normalv, in_shadow=False):
 		if material.pattern is not None: 
-			print(obj)
 			material.color = material.pattern.pattern_at_shape(obj,point)
 		effective_color = material.color * light.intensity
 		p = light.position - point

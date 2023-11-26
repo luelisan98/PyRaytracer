@@ -58,7 +58,13 @@ class Computations():
 		surface =  Lights().lighting(comps.object.material, comps.object, world.light, comps.point, comps.eyev, comps.normalv, comps.in_shadow)
 		reflected = self.reflected_color(world, comps,remaining)
 		refracted = self.refracted_color(world,comps,remaining) 
-		return surface + reflected + refracted
+		
+		material = comps.object.material 
+		if material.reflective > 0 and material.transparency > 0:
+			reflectance = self.schlick(comps)
+			return surface + reflected * reflectance + refracted * ( 1 - reflectance)
+		else:
+			return surface + reflected + refracted
 
 	def color_at(self, world, ray,remaining = 5):
 		ints_world = Intersection().intersect_world(world, ray)
@@ -94,3 +100,17 @@ class Computations():
 		direction = comps.normalv * (n_ratio * cosi - cost) - comps.eyev * n_ratio
 		refracted_ray = Rays(comps.under_point, direction)
 		return self.color_at(world, refracted_ray, remaining - 1) * comps.object.material.transparency
+	
+	def schlick(self,comps):
+		cos = comps.eyev.dot(comps.normalv)
+		if comps.n1 > comps.n2:
+			n = comps.n1 / comps.n2 
+			sin2t = n**2 * (1.0 - cos**2)
+			if sin2t > 1.0:
+				return 1.0
+			
+			cost = math.sqrt(1 - sin2t)
+			cos = cost
+		
+		rtheta = ((comps.n1 - comps.n2) / (comps.n1 + comps.n2)) ** 2
+		return rtheta + (1 - rtheta) * (1-cos) ** 5
