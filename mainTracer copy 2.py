@@ -1,14 +1,14 @@
 import math
 
-from rayTracer.camera import Camera
+from rayTracer.plane import Plane
+from rayTracer.pattern import Checker, Ring, Gradient, Stripe
+from rayTracer.sphere import Sphere
+from rayTracer.colors import Colors
+from rayTracer.worlds import World
 from rayTracer.lights import Lights
 from rayTracer.transformations import Transformations
-from rayTracer.pattern import Checker, Ring, Gradient, Stripe
-from rayTracer.sphere import Sphere 
-from rayTracer.plane import Plane
 from rayTracer.tuples import Tuples
-from rayTracer.worlds import World
-from rayTracer.colors import Colors
+from rayTracer.camera import Camera
 
 if __name__ == "__main__":
     world = World()
@@ -52,9 +52,7 @@ if __name__ == "__main__":
 
     world.light = Lights()
     world.light.point_light(Tuples().Point(-10, 10, -10), Colors(1, 1, 1))
-    camera = Camera(800, 400, math.pi / 3)
+    camera = Camera(300*4, 150*4, math.pi / 3)
     camera.transform = Transformations().view_transform(Tuples().Point(0, 1.5, -5), Tuples().Point(0, 1, 0), Tuples().Vector(0, 1, 0))
     canvas = camera.render(world)
-
-    with open("../images/reflection.ppm", "w") as ppm_file:
-        ppm_file.write(canvas.to_ppm())
+    canvas.canvas_to_ppm("patternsreflected.ppm")

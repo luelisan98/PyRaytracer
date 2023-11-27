@@ -55,7 +55,7 @@ class Computations():
 	
 	def shade_hit(self, world,comps, remaining = 5):
 		comps.in_shadow =  world.is_shadowed(comps.over_point)
-		surface =  Lights().lighting(comps.object.material, comps.object, world.light, comps.point, comps.eyev, comps.normalv, comps.in_shadow)
+		surface =  Lights().lighting(comps.object.material, comps.object, world.light, comps.over_point, comps.eyev, comps.normalv, comps.in_shadow)
 		reflected = self.reflected_color(world, comps,remaining)
 		refracted = self.refracted_color(world,comps,remaining) 
 		
