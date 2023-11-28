@@ -163,3 +163,4 @@ cython_debug/
 .vs_code\*
 rayTracer/EPSILON = 0.py
 *.ppm
+*.png
