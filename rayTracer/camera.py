@@ -4,7 +4,9 @@ from rayTracer.rays import Rays
 from rayTracer.canvas import Canvas
 from rayTracer.computations import Computations
 
+from tqdm import tqdm
 
+import time
 import math
 
 EPSILON = 0.00001
@@ -49,12 +51,19 @@ class Camera():
 		return Rays(origin, direction)
 	
 	def render(self,w):
+		start_time = time.time()
+		progress_bar = tqdm(total=self.hsize * self.vsize, desc="Processing")
 		image = Canvas(self.hsize, self.vsize)
 		com = Computations()
-    
+
 		for y in range(0, self.vsize):
 			for x in range(0, self.hsize):
 				ray = self.ray_for_pixel(x,y)
 				color = com.color_at(w, ray)
 				image.write_pixel(x,y,color)
+				progress_bar.update(1)
+		progress_bar.close()
+		end_time = time.time()
+		print(f"Rendering completed in {end_time - start_time:.2f} seconds")
+
 		return image
