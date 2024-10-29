@@ -22,3 +22,11 @@ class Plane(Shape):
 	
 	def __eq__(self, other):
 		return super().__eq__(other)
+
+
+
+	def bounds(self):
+	# Planes are infinite, so we use large bounding values
+		min_point = Tuples().Point(float('-inf'), float('-inf'), float('-inf'))
+		max_point = Tuples().Point(float('inf'), float('inf'), float('inf'))
+		return [min_point, max_point]

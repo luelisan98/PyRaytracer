@@ -40,3 +40,8 @@ class Shape():
 		world_normal = inverse.transposing() * local_normal
 		world_normal.w = 0
 		return world_normal.normalize()
+	
+
+	def bounds(self):
+		# Return the bounding box as a tuple (min_point, max_point)
+		raise NotImplementedError("Subclasses must implement this method")

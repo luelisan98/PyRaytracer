@@ -4,11 +4,16 @@ from rayTracer.rays import Rays
 from rayTracer.canvas import Canvas
 from rayTracer.computations import Computations
 
-from tqdm import tqdm
+from rayTracer.colors import Colors
+
+
+
+#from tqdm import tqdm
 
 import time
 import math
 
+from rayTracer.kdtree import KDNode, build_kd_tree, intersect_kd_tree
 EPSILON = 0.00001
 
 def equals(a,b):
@@ -50,19 +55,23 @@ class Camera():
 
 		return Rays(origin, direction)
 	
-	def render(self,w):
+	def render(self,w, kd_tree_root=None):
 		start_time = time.time()
-		progress_bar = tqdm(total=self.hsize * self.vsize, desc="Processing")
+		#progress_bar = tqdm(total=self.hsize * self.vsize, desc="Processing")
 		image = Canvas(self.hsize, self.vsize)
 		com = Computations()
 
 		for y in range(0, self.vsize):
 			for x in range(0, self.hsize):
 				ray = self.ray_for_pixel(x,y)
-				color = com.color_at(w, ray)
+
+				#color = com.color_at(w, ray)
+				# color be KD tree intersect 
+				color = intersect_kd_tree(ray, kd_tree_root, w, com)
+				
 				image.write_pixel(x,y,color)
-				progress_bar.update(1)
-		progress_bar.close()
+			#	progress_bar.update(1)
+		#progress_bar.close()
 		end_time = time.time()
 		print(f"Rendering completed in {end_time - start_time:.2f} seconds")
 
