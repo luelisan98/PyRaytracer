@@ -8,7 +8,7 @@ from rayTracer.colors import Colors
 
 
 
-#from tqdm import tqdm
+
 
 import time
 import math
@@ -55,24 +55,17 @@ class Camera():
 
 		return Rays(origin, direction)
 	
-	def render(self,w, kd_tree_root=None):
+	def render(self, w, kd_tree_root=None):
 		start_time = time.time()
-		#progress_bar = tqdm(total=self.hsize * self.vsize, desc="Processing")
 		image = Canvas(self.hsize, self.vsize)
 		com = Computations()
-
+		
 		for y in range(0, self.vsize):
 			for x in range(0, self.hsize):
-				ray = self.ray_for_pixel(x,y)
-
-				#color = com.color_at(w, ray)
-				# color be KD tree intersect 
+				ray = self.ray_for_pixel(x, y)
 				color = intersect_kd_tree(ray, kd_tree_root, w, com)
+				image.write_pixel(x, y, color)
 				
-				image.write_pixel(x,y,color)
-			#	progress_bar.update(1)
-		#progress_bar.close()
 		end_time = time.time()
 		print(f"Rendering completed in {end_time - start_time:.2f} seconds")
-
 		return image

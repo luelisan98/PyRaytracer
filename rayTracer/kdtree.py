@@ -30,29 +30,24 @@ def build_kd_tree(objects, depth=0):
 	return node
 
 def intersect_kd_tree(ray, node, world, computations):
-	if node is None:
-		return  Colors(0, 0,0)
+    if node is None:
+        return Colors(0, 0, 0)
+    
+    if not ray.intersects(node.bounds):
+        return Colors(0, 0, 0)
+    
+    intersections = []
+    for obj in node.objects:
+        intersections.extend(Intersection().intersect(obj, ray))
 
-	# Check if the ray intersects the node's bounding box
-	if not ray.intersects(node.bounds):
-		return  Colors(0, 0,0)
+    if intersections:
+        closest_hit = Intersection().hit(intersections)
+        if closest_hit:
+            computations.prepare_computations(closest_hit, ray, intersections)
+            current_color = computations.shade_hit(world, computations)
+            return current_color
 
-	# Test objects in the node
-	intersections = []
-	for obj in node.objects:
-		intersections.extend(Intersection().intersect(obj, ray))
-	
-
-
-	# Recursively check children nodes
-	left_color = intersect_kd_tree(ray, node.left, world, computations)
-	right_color = intersect_kd_tree(ray, node.right, world, computations)
-
-	if intersections:
-		# Assuming the first intersection is the closest hit
-		closest_hit = Intersection().hit(intersections)
-		computations.prepare_computations(closest_hit, ray, intersections)
-		color = computations.shade_hit(world, computations)
-		return color
-
-	return Colors(0, 0,0)
+    left_color = intersect_kd_tree(ray, node.left, world, computations)
+    right_color = intersect_kd_tree(ray, node.right, world, computations)
+    
+    return (left_color + right_color) * 0.5  # Adjust accumulation method if needed
