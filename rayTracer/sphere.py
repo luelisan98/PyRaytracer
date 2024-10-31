@@ -46,14 +46,14 @@ class Sphere(Shape):
 	def bounds(self):
 		# Assuming the sphere is centered at the origin with radius 1
 		points = [
-			Tuples().Point(-1, -1, -1),
-			Tuples().Point(-1, -1,  1),
-			Tuples().Point(-1,  1, -1),
-			Tuples().Point(-1,  1,  1),
-			Tuples().Point( 1, -1, -1),
-			Tuples().Point( 1, -1,  1),
-			Tuples().Point( 1,  1, -1),
-			Tuples().Point( 1,  1,  1)
+			Tuples().Point(-5, -5, -5),
+			Tuples().Point(-5, -5,  5),
+			Tuples().Point(-5,  5, -5),
+			Tuples().Point(-5,  5,  5),
+			Tuples().Point( 5, -5, -5),
+			Tuples().Point( 5, -5,  5),
+			Tuples().Point( 5,  5, -5),
+			Tuples().Point( 5,  5,  5)
 		]
 
 		# Apply the transformation to each point
