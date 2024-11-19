@@ -14,6 +14,7 @@ import time
 import math
 
 from rayTracer.kdtree import KDNode, build_kd_tree, intersect_kd_tree
+from rayTracer.bvh import intersect_bvh
 EPSILON = 0.00001
 
 def equals(a,b):
@@ -55,7 +56,7 @@ class Camera():
 
 		return Rays(origin, direction)
 	
-	def render(self, w, kd_tree_root=None):
+	def render(self, w, tree_root=None):
 		start_time = time.time()
 		image = Canvas(self.hsize, self.vsize)
 		com = Computations()
@@ -63,7 +64,8 @@ class Camera():
 		for y in range(0, self.vsize):
 			for x in range(0, self.hsize):
 				ray = self.ray_for_pixel(x, y)
-				color = intersect_kd_tree(ray, kd_tree_root, w, com)
+				#color = intersect_kd_tree(ray, tree_root, w, com)
+				color = intersect_bvh(ray, tree_root,w, com)
 				image.write_pixel(x, y, color)
 				
 		end_time = time.time()

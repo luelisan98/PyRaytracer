@@ -11,6 +11,8 @@ from rayTracer.tuples import Tuples
 from rayTracer.camera import Camera
 
 from rayTracer.kdtree import KDNode, build_kd_tree, intersect_kd_tree
+from rayTracer.bvh import build_bvh
+
 
 if __name__ == "__main__":
 	world = World()
@@ -59,8 +61,8 @@ if __name__ == "__main__":
 	camera = Camera(300, 150, math.pi / 3)
 	camera.transform = Transformations().view_transform(Tuples().Point(0, 1.5, -5), Tuples().Point(0, 1, 0), Tuples().Vector(0, 1, 0))
 	
-	kd_tree_root = build_kd_tree(world.objects)
+	#kd_tree_root = build_kd_tree(world.objects)
+	bvh_tree_root = build_bvh(world.objects)
 
-
-	canvas = camera.render(world,kd_tree_root)
+	canvas = camera.render(world,bvh_tree_root)
 	canvas.canvas_to_ppm("patternsreflected_blinn1.ppm")

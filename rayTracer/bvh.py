@@ -1,74 +1,71 @@
 from rayTracer.intersection import Intersection
+from rayTracer.colors import Colors
+from rayTracer.tuples import Tuples
+from rayTracer.bbox import BBox
 
 class BVHNode:
-    def __init__(self, left=None, right=None, bbox=None):
+    def __init__(self, bounds, objects, left=None, right=None):
+        self.bounds = bounds
+        self.objects = objects
         self.left = left
         self.right = right
-        self.bbox = bbox
 
-class BVH:
-    def __init__(self, objects):
-        self.objects = objects
-        self.root = self.build_tree(objects)
+def build_bvh(objects):
+    if not objects:
+        return None
 
-    def build_tree(self, objects):
-        if len(objects) == 1:
-            return BVHNode(bbox=objects[0].bbox)
-        elif len(objects) == 2:
-            left, right = objects
-            return BVHNode(left=self.build_tree([left]), right=self.build_tree([right]), bbox=left.bbox.union(right.bbox))
-        else:
-            mid = len(objects) // 2
-            left = self.build_tree(objects[:mid])
-            right = self.build_tree(objects[mid:])
-            return BVHNode(left=left, right=right, bbox=left.bbox.union(right.bbox))
+    if len(objects) == 1:
+        return BVHNode(objects[0].bounds(), objects)
 
-    def intersect(self, ray):
-        if self.root.bbox.intersect(ray):
-            return self.intersect_node(ray, self.root)
-        return []
+    objects.sort(key=lambda obj: obj.bounds().min.x)
+    mid = len(objects) // 2
 
-    def intersect_node(self, ray, node):
-        if node.left is None and node.right is None:
-            return node.bbox.intersect(ray)
-        results = []
-        if node.left and node.left.bbox.intersect(ray):
-            results.extend(self.intersect_node(ray, node.left))
-        if node.right and node.right.bbox.intersect(ray):
-            results.extend(self.intersect_node(ray, node.right))
-        return results
+    left_child = build_bvh(objects[:mid])
+    right_child = build_bvh(objects[mid:])
 
-class Object:
-    def __init__(self, bbox):
-        self.bbox = bbox
+    left_bounds = left_child.bounds if left_child else None
+    right_bounds = right_child.bounds if right_child else None
 
-    def intersect(self, ray):
-        intersections = Intersection().intersect(self, ray)
-        return intersections
+    combined_bounds = combine_bounds(left_bounds, right_bounds)
 
-class BBox:
-    def __init__(self, min, max):
-        self.min = min
-        self.max = max
+    return BVHNode(combined_bounds, objects, left_child, right_child)
 
-    def union(self, other):
-        min_x = min(self.min[0], other.min[0])
-        min_y = min(self.min[1], other.min[1])
-        min_z = min(self.min[2], other.min[2])
-        max_x = max(self.max[0], other.max[0])
-        max_y = max(self.max[1], other.max[1])
-        max_z = max(self.max[2], other.max[2])
-        return BBox([min_x, min_y, min_z], [max_x, max_y, max_z])
 
-    def intersect(self, ray):
-        tmin = (self.min[0] - ray.origin[0]) / ray.direction[0] if ray.direction[0] != 0 else float('inf')
-        tmax = (self.max[0] - ray.origin[0]) / ray.direction[0] if ray.direction[0] != 0 else float('inf')
-        if tmin > tmax: tmin, tmax = tmax, tmin
-        tmin = max(tmin, (self.min[1] - ray.origin[1]) / ray.direction[1] if ray.direction[1] != 0 else float('inf'))
-        tmax = min(tmax, (self.max[1] - ray.origin[1]) / ray.direction[1] if ray.direction[1] != 0 else float('inf'))
-        if tmin > tmax: return False
-        tmin = max(tmin, (self.min[2] - ray.origin[2]) / ray.direction[2] if ray.direction[2] != 0 else float('inf'))
-        tmax = min(tmax, (self.max[2] - ray.origin[2]) / ray.direction[2] if ray.direction[2] != 0 else float('inf'))
-        if tmin > tmax: return False
-        return True
+def combine_bounds(left_bounds, right_bounds):
+    if left_bounds is None:
+        return right_bounds
+    if right_bounds is None:
+        return left_bounds
 
+    min_x = min(left_bounds.min.x, right_bounds.min.x)
+    min_y = min(left_bounds.min.y, right_bounds.min.y)
+    min_z = min(left_bounds.min.z, right_bounds.min.z)
+    max_x = max(left_bounds.max.x, right_bounds.max.x)
+    max_y = max(left_bounds.max.y, right_bounds.max.y)
+    max_z = max(left_bounds.max.z, right_bounds.max.z)
+
+    return BBox(Tuples(min_x, min_y, min_z), Tuples(max_x, max_y, max_z))
+
+
+def intersect_bvh(ray, node, world, computations):
+    if node is None:
+        return Colors(0, 0, 0)
+
+    if not node.bounds.intersect(ray):
+        return Colors(0, 0, 0)
+
+    intersections = []
+    for obj in node.objects:
+        intersections.extend(Intersection().intersect(obj, ray))
+
+    if intersections:
+        closest_hit = Intersection().hit(intersections)
+        if closest_hit:
+            computations.prepare_computations(closest_hit, ray, intersections)
+            current_color = computations.shade_hit(world, computations)
+            return current_color
+
+    left_color = intersect_bvh(ray, node.left, world, computations)
+    right_color = intersect_bvh(ray, node.right, world, computations)
+
+    return (left_color + right_color) * 0.5  # Adjust accumulation method if needed
